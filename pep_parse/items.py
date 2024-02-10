@@ -7,6 +7,8 @@ import scrapy
 
 
 class PepParseItem(scrapy.Item):
+    """Структура полученных данных отдельного PEP."""
+
     number = scrapy.Field()
     name = scrapy.Field()
     status = scrapy.Field()

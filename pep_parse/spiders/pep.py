@@ -4,11 +4,14 @@ from pep_parse.items import PepParseItem
 
 
 class PepSpider(scrapy.Spider):
+    """Спайдер парсинга PEP."""
+
     name = 'pep'
     allowed_domains = ['peps.python.org']
     start_urls = ['https://peps.python.org/']
 
     def parse(self, response):
+        """Получение ссылок на отдельные PEP."""
         section = response.css('section#numerical-index')
 
         all_peps = section.css('a.pep[href^="pep-"]')
@@ -16,6 +19,7 @@ class PepSpider(scrapy.Spider):
             yield response.follow(pep_link, callback=self.parse_pep)
 
     def parse_pep(self, response):
+        """Парсинг отдельного PEP."""
         pep = response.css('section#pep-content')
 
         pattern = r'^PEP (?P<number>\d+) – (?P<name>\w.*)'

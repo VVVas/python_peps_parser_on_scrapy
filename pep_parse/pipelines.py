@@ -16,10 +16,14 @@ DATETIME_FORMAT = '%Y-%m-%dT%H-%M-%S'
 
 
 class PepParsePipeline:
+    """Сбор статистики об используемых статусах PEP."""
+
     def open_spider(self, spider):
+        """Начало работы спайдера: создание словаря."""
         self.status_counts = {}
 
     def process_item(self, item, spider):
+        """Обработка данных отдельного PEP."""
         if item['status'] in self.status_counts:
             self.status_counts[item['status']] += 1
         else:
@@ -27,6 +31,7 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
+        """Завершение работы спайдера: запись в файл."""
         self.status_summary = [('Статус', 'Количество')]
         self.status_summary.extend(self.status_counts.items())
         self.status_summary.append(('Total', sum(self.status_counts.values())))
