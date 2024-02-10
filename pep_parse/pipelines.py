@@ -5,7 +5,7 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
+# from itemadapter import ItemAdapter
 
 import csv
 import datetime as dt
@@ -25,17 +25,21 @@ class PepParsePipeline:
         else:
             self.status_counts[item['status']] = 1
         return item
-    
+
     def close_spider(self, spider):
-        self.results = [('Статус', 'Количество')]
-        self.results.extend(self.status_counts.items())
-        self.results.append(('Total', sum(self.status_counts.values())))
+        self.status_summary = [('Статус', 'Количество')]
+        self.status_summary.extend(self.status_counts.items())
+        self.status_summary.append(('Total', sum(self.status_counts.values())))
+
         results_dir = BASE_DIR / 'results'
         results_dir.mkdir(exist_ok=True)
+
         now = dt.datetime.now(dt.timezone.utc)
         now_formatted = now.strftime(DATETIME_FORMAT)
         file_name = f'status_summary_{now_formatted}.csv'
+
         file_path = results_dir / file_name
+
         with open(file_path, 'w', encoding='utf-8') as f:
-            writer = csv.writer(f, dialect='unix', quoting = csv.QUOTE_NONE)
-            writer.writerows(self.results)
+            writer = csv.writer(f, dialect='unix', quoting=csv.QUOTE_NONE)
+            writer.writerows(self.status_summary)
