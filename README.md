@@ -1,1 +1,7 @@
-# scrapy_parser_pep
+# Асинхронный парсер PEP на Scrapy
+
+Для запуска используйте команду
+
+```
+scrapy crawl pep
+```
