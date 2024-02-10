@@ -1,3 +1,4 @@
+# flake8: noqa
 # Scrapy settings for pep_parse project
 #
 # For simplicity, this file contains only settings considered important or
