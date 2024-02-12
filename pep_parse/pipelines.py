@@ -9,6 +9,7 @@
 
 import csv
 import datetime as dt
+from collections import defaultdict
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
@@ -20,14 +21,11 @@ class PepParsePipeline:
 
     def open_spider(self, spider):
         """Начало работы спайдера: создание словаря."""
-        self.status_counts = {}
+        self.status_counts = defaultdict(int)
 
     def process_item(self, item, spider):
         """Обработка данных отдельного PEP."""
-        if item['status'] in self.status_counts:
-            self.status_counts[item['status']] += 1
-        else:
-            self.status_counts[item['status']] = 1
+        self.status_counts[item['status']] += 1
         return item
 
     def close_spider(self, spider):

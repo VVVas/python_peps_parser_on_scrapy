@@ -16,13 +16,14 @@ class PepSpider(scrapy.Spider):
 
         all_peps = section.css('a.pep[href^="pep-"]')
         for pep_link in all_peps:
-            yield response.follow(pep_link, callback=self.parse_pep)
+            if pep_link.attrib['href'].endswith('/'):
+                yield response.follow(pep_link, callback=self.parse_pep)
 
     def parse_pep(self, response):
         """Парсинг отдельного PEP."""
         pep = response.css('section#pep-content')
 
-        pattern = r'^PEP (?P<number>\d+) – (?P<name>\w.*)'
+        pattern = r'^PEP (?P<number>\d{1,4}) – (?P<name>\w.*)'
         number, name = pep.css('h1.page-title::text').re(pattern)
         status = pep.css('dt:contains("Status") + dd abbr::text').get()
 
