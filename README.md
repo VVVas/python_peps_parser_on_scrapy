@@ -26,6 +26,6 @@ deactivate
 ```  
 
 ## Стек технологий  
-Python, BeautifulSoup4  
+Python, Scrapy  
 
 [Мишустин Василий](https://github.com/vvvas), v@vvvas.ru  
